@@ -101,6 +101,26 @@ services:
       timeout: 5s
       retries: 5
 
+  # Auth Service Database
+  auth-db:
+    image: postgres:16-alpine
+    container_name: auth-service-db
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5437:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   microservices-network:
     driver: bridge
@@ -111,3 +131,4 @@ volumes:
   product_db_data:
   order_db_data:
   payment_db_data:
+  auth_db_data:

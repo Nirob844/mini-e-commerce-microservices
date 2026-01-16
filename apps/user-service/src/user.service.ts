@@ -10,7 +10,7 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const { email, password, ...rest } = createUserDto;
-    
+
     // Check if user already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
@@ -55,14 +55,17 @@ export class UserService {
     const total = await this.prisma.user.count();
 
     return {
-      data: users.map(user => this.mapUserToResponse(user)),
+      data: users.map((user) => this.mapUserToResponse(user)),
       total,
       skip,
       take,
     };
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
+  async updateUser(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -93,7 +96,10 @@ export class UserService {
     });
   }
 
-  async validateUserPassword(email: string, password: string): Promise<UserResponseDto | null> {
+  async validateUserPassword(
+    email: string,
+    password: string,
+  ): Promise<UserResponseDto | null> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
@@ -111,8 +117,8 @@ export class UserService {
     return this.mapUserToResponse(user);
   }
 
-  private mapUserToResponse(user: any): UserResponseDto {
-    const { password, ...response } = user;
-    return response;
+  private mapUserToResponse(user: Omit<any, 'password'>): UserResponseDto {
+    const { ...response } = user;
+    return response as UserResponseDto;
   }
 }

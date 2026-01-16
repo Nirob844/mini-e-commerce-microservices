@@ -1,7 +1,16 @@
-import { Controller, Post, Get, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './dtos/product.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 
 @Controller('products')
 export class ProductController {
