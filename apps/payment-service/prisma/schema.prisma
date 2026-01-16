@@ -1,0 +1,32 @@
+// Payment Service Schema
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  orderId       String        @map("order_id")
+  amount        Float
+  paymentMethod String        @map("payment_method")
+  status        PaymentStatus @default(PENDING)
+  transactionId String?       @unique @map("transaction_id")
+  notes         String?
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  @@map("payments")
+}

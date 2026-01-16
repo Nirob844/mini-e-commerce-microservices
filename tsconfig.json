@@ -20,6 +20,10 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@mini-e-commerce/common": ["libs/common/src"],
+      "@mini-e-commerce/common/*": ["libs/common/src/*"]
+    }
   }
 }
